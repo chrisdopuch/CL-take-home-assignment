@@ -16,8 +16,19 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (conversionMode === "lowercase") setTextOutput(textInput.toLowerCase());
-    if (conversionMode === "uppercase") setTextOutput(textInput.toUpperCase());
+
+    const noSpecialCharacters = textInput.replace(/[^a-zA-Z0-9 ]/g, "");
+    if (!noSpecialCharacters) {
+      return alert(
+        "Special characters can't be converted. Please add in text."
+      );
+    }
+
+    if (conversionMode === "lowercase") {
+      setTextOutput(textInput.toLowerCase());
+    } else if (conversionMode === "uppercase") {
+      setTextOutput(textInput.toUpperCase());
+    }
   };
 
   return (
@@ -56,7 +67,9 @@ function App() {
           />
           <label htmlFor="conversion-1">Convert text to uppercase</label>
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={!textInput}>
+          Submit
+        </button>
         <div className="form-control form-control__text u-mt-3">
           <label htmlFor="result">Converted text:</label>
           <output id="result" className="result">
